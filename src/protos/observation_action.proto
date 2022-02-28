@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package rcl;
+
+service RLC {
+
+    rpc GetAction(ObservationData) returns (ActionData) {}
+
+}
+
+message ObservationData {
+    repeated float features = 1;
+    int32 count = 2; // change later to something like reward; only for debugging
+}
+
+/*
+message Decision {
+    int32 action_index = 1;
+    bool is_end = 2;
+}
+*/
+
+message ActionData {
+    // Decision rl_return = 1;
+    int32 action_index = 1;
+    bool is_end = 2;
+}
