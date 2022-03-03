@@ -11,9 +11,9 @@
 
 using namespace boost::interprocess;
 
-typedef allocator<int, managed_shared_memory::segment_manager>  ShmemAllocatorInt;
+typedef allocator<int64_t, managed_shared_memory::segment_manager>  ShmemAllocatorInt;
 typedef allocator<float, managed_shared_memory::segment_manager>  ShmemAllocatorFloat;
-typedef std::vector<int, ShmemAllocatorInt> IntVector;
+typedef std::vector<int64_t, ShmemAllocatorInt> IntVector;
 typedef std::vector<float, ShmemAllocatorFloat> FloatVector;
 
 class cPersistentIntTensor{
@@ -35,7 +35,7 @@ class cPersistentIntTensor{
 		}
 		void write(torch::Tensor T){
 			for(int i=0; i<size; i++)
-				(*vector)[i] = T.data_ptr<int>()[i];
+				(*vector)[i] = T.data_ptr<int64_t>()[i];
 		};
 		torch::Tensor read(){
 			torch::Tensor T = torch::zeros(size, torch::TensorOptions().dtype(torch::kInt).device(torch::kCPU));

@@ -77,13 +77,13 @@ int main(int argc, char** argv) {
 
         //int current_action = data.action_index();
         //std::cout << "recieved action " << current_action << std::endl;
-        std::vector<int> current_action_vec;
+        std::vector<int64_t> current_action_vec;
         current_action_vec.push_back(data.action_index());
-        /*
+        
         for (int i = 0; i < current_action_vec.size(); i++) {
             std::cout << "recieved action " << current_action_vec[i] << std::endl;
         }
-        */
+        
         //std::cout << "recieved action " << current_action[0] << std::endl;
 
         action->write(current_action_vec);

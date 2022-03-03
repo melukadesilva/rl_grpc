@@ -65,6 +65,28 @@ cGetSharedMemoryTensor::~cGetSharedMemoryTensor() {
 	delete segment_name;
 }
 
+cPersistentIntTensor* cGetSharedMemoryTensor::findIntTensor(const std::string &name){
+	// t_name = new std::string(s_name);
+	IntVector *shared_vector = segment->find<IntVector>(name.c_str()).first;
+	if(shared_vector == NULL){
+		std::cout<<"Cannot find the tensor "<<name<<std::endl;
+	}else{
+		// std::cout<<"Created vector "<<name.length()<<std::endl;
+		std::cout<<"Fount float32 tensor "<<name <<std::endl;
+	}
+	/*
+	if(shared_vector == NULL){
+		// print_line(String("Not found:")+String(String::num_int64(s_name.length())));
+		print_line(String("Not found:")+String(s_name.c_str()));
+	}else{
+		print_line(String("Found:")+String(s_name.c_str()));
+	}
+	*/
+	//Ref<cPersistentFloatTensor> tensor(memnew(cPersistentFloatTensor(shared_vector)));
+	cPersistentIntTensor *tensor = new cPersistentIntTensor(shared_vector, name, segment);
+	return tensor;
+}
+
 cPersistentFloatTensor* cGetSharedMemoryTensor::findFloatTensor(const std::string &name){
 	// t_name = new std::string(s_name);
 	FloatVector *shared_vector = segment->find<FloatVector>(name.c_str()).first;

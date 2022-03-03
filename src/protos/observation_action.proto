@@ -22,6 +22,6 @@ message Decision {
 
 message ActionData {
     // Decision rl_return = 1;
-    int32 action_index = 1;
+    int64 action_index = 1;
     bool is_end = 2;
 }

@@ -11,9 +11,9 @@
 
 using namespace boost::interprocess;
 
-typedef allocator<int, managed_shared_memory::segment_manager>  ShmemAllocatorInt;
+typedef allocator<int64_t, managed_shared_memory::segment_manager>  ShmemAllocatorInt;
 typedef allocator<float, managed_shared_memory::segment_manager>  ShmemAllocatorFloat;
-typedef std::vector<int, ShmemAllocatorInt> IntVector;
+typedef std::vector<int64_t, ShmemAllocatorInt> IntVector;
 typedef std::vector<float, ShmemAllocatorFloat> FloatVector;
 
 class cPersistentIntTensor{
@@ -33,16 +33,16 @@ class cPersistentIntTensor{
 			segment->destroy<IntVector>(name->c_str());
 			delete name;
 		}
-		void write(std::vector<int> T){
+		void write(std::vector<int64_t> T){
 			std::cout << "Writing the int tensor" << std::endl;
 			for(int i=0; i<size; i++) {
 				(*vector)[i] = T[i]; // T.data_ptr<int>()[i];
 			}
-			std::cout << (*vector)[0] << std::endl;
+			//std::cout << (*vector)[0] << std::endl;
 		};
-		std::vector<int> read(){
+		std::vector<int64_t> read(){
 			//torch::Tensor T = torch::zeros(size, torch::TensorOptions().dtype(torch::kInt).device(torch::kCPU));
-			std::vector<int> T;
+			std::vector<int64_t> T;
 			for(int i=0; i<size; i++)
 				T.push_back((*vector)[i]);
 			return T;
@@ -104,7 +104,7 @@ class cGetSharedMemoryTensor {
 	
 		void getSegment(const std::string &name);
 
-		//cPersistentIntTensor findIntTensor(const std::string name);
+		cPersistentIntTensor* findIntTensor(const std::string &name);
 		cPersistentFloatTensor* findFloatTensor(const std::string &name);
 };
 
