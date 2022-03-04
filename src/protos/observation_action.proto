@@ -10,7 +10,8 @@ service RLC {
 
 message ObservationData {
     repeated float features = 1;
-    int32 count = 2; // change later to something like reward; only for debugging
+    float reward = 2;
+    int32 done = 3; 
 }
 
 /*

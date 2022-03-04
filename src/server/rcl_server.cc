@@ -32,6 +32,8 @@ class RCServiceImpl final : public RLC::Service {
 
     cPersistentFloatTensor *obs = mem.findFloatTensor("trainer_observation");
     cPersistentIntTensor *action = mem.findIntTensor("trainer_action");
+    cPersistentFloatTensor *reward = mem.findFloatTensor("trainer_reward");
+    cPersistentIntTensor *done = mem.findIntTensor("trainer_done");
 
     Status GetAction(ServerContext *context, 
                      const ObservationData *request, 
@@ -49,20 +51,31 @@ class RCServiceImpl final : public RLC::Service {
             std::cout << request->features(i) << std::endl;
             feature_vec.push_back(request->features(i));
         }
+
+        std::vector<float> rwd;
+        rwd.push_back(request->reward());
+        std::vector<int64_t> is_done;
+        is_done.push_back(request->done());
+
         // write the observation to shared mem and increment the semaphore
         obs->write(feature_vec);
+        reward->write(rwd);
+        done->write(is_done);
+        
         sem_obs.post();
 
         sem_act.wait();
         std::vector<int64_t> action_vec = action->read();
         float action =  action_vec[0];
 
+        /*
         if (request->count() == 10) {
             reply->set_is_end(true);
         }
         else {
             reply->set_is_end(false);
         }
+        */
 
         reply->set_action_index(action);// rl_return->set_action_index(action);
 

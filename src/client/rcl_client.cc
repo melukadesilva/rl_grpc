@@ -22,12 +22,14 @@ class RLCClient {
     public:
         RLCClient(std::shared_ptr<Channel> channel) : stub_(RLC::NewStub(channel)) {};
         
-        ActionData GetAction(std::vector<float> data, int count) {
+        ActionData GetAction(std::vector<float> data, float reward, int done) {
             ObservationData request;
             for (int i=0; i < data.size(); i++) {
                 request.add_features(data[i]);
             }
-            request.set_count(count);
+
+            request.set_reward(reward);
+            request.set_done(done);
 
             ActionData reply;
 
@@ -64,6 +66,8 @@ int main(int argc, char** argv) {
     // write to the shared memory
     cPersistentIntTensor *action = mem.newIntTensor("action", 1);
     cPersistentFloatTensor *observation = mem.newFloatTensor("observation", 3);
+    cPersistentFloatTensor *reward = mem.newFloatTensor("reward", 1);
+    cPersistentIntTensor *done = mem.newIntTensor("done", 1);
 
     // std::vector<float> obs {1.4, 2.2, 3.1, 4.5};
     int count = 0;
@@ -71,9 +75,11 @@ int main(int argc, char** argv) {
     for (;;) {
         sem_obs.wait();
         std::vector<float> obs = observation->read();
+        std::vector<float> rwd = reward->read();
+        std::vector<int64_t> is_done = done->read(); 
         //std::cout << "observation received " << obs  << std::endl;
 
-        ActionData data = rcl.GetAction(obs, count);
+        ActionData data = rcl.GetAction(obs, rwd[0], is_done[0]);
 
         //int current_action = data.action_index();
         //std::cout << "recieved action " << current_action << std::endl;
