@@ -1,28 +1,25 @@
 syntax = "proto3";
 
-package rcl;
+package rlc;
 
 service RLC {
 
-    rpc GetAction(ObservationData) returns (ActionData) {}
+    rpc Step(ActionData) returns (ObservationData) {}
+    rpc Reset(Empty) returns (ObservationData) {}
+
+}
+
+message Empty {
 
 }
 
 message ObservationData {
-    repeated float features = 1;
+    repeated float observations = 1;
     float reward = 2;
-    int32 done = 3; 
+    int64 is_done = 3; 
 }
-
-/*
-message Decision {
-    int32 action_index = 1;
-    bool is_end = 2;
-}
-*/
 
 message ActionData {
-    // Decision rl_return = 1;
-    int64 action_index = 1;
-    bool is_end = 2;
+    float action_index = 1;
+    int64 env_action = 2;
 }

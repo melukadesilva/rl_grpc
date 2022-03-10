@@ -34,8 +34,9 @@ class cPersistentIntTensor{
 			delete name;
 		}
 		void write(std::vector<int64_t> T){
-			std::cout << "Writing the int tensor" << std::endl;
+			//std::cout << "Writing the int tensor" << std::endl;
 			for(int i=0; i<size; i++) {
+				//std::cout << T[i] << std::endl;
 				(*vector)[i] = T[i]; // T.data_ptr<int>()[i];
 			}
 			//std::cout << (*vector)[0] << std::endl;

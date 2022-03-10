@@ -72,7 +72,7 @@ cPersistentIntTensor* cGetSharedMemoryTensor::findIntTensor(const std::string &n
 		std::cout<<"Cannot find the tensor "<<name<<std::endl;
 	}else{
 		// std::cout<<"Created vector "<<name.length()<<std::endl;
-		std::cout<<"Fount float32 tensor "<<name <<std::endl;
+		std::cout<<"Found int tensor "<<name <<std::endl;
 	}
 	/*
 	if(shared_vector == NULL){
@@ -94,7 +94,7 @@ cPersistentFloatTensor* cGetSharedMemoryTensor::findFloatTensor(const std::strin
 		std::cout<<"Cannot find the tensor "<<name<<std::endl;
 	}else{
 		// std::cout<<"Created vector "<<name.length()<<std::endl;
-		std::cout<<"Fount float32 tensor "<<name <<std::endl;
+		std::cout<<"Found float32 tensor "<<name <<std::endl;
 	}
 	/*
 	if(shared_vector == NULL){
@@ -152,7 +152,7 @@ cSharedMemorySemaphore::~cSharedMemorySemaphore(){
 }
 
 void cSharedMemorySemaphore::post(){
-	std::cout<<"Post semaphore "<<*name<<std::endl;
+	//std::cout<<"Post semaphore "<<*name<<std::endl;
 	try{
 		//Important: if the mutex is not cast here, it will give segfault
 		mutex = static_cast<interprocess_semaphore*>(region->get_address());
@@ -165,7 +165,7 @@ void cSharedMemorySemaphore::post(){
 	// std::cout<<"Posted semaphore "<<*name<<std::endl;
 }
 void cSharedMemorySemaphore::wait(){
-	std::cout<<"wait semaphore "<<*name<<std::endl;
+	//std::cout<<"wait semaphore "<<*name<<std::endl;
 	try{
 		mutex = static_cast<interprocess_semaphore*>(region->get_address());
 		mutex->wait();

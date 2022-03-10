@@ -74,10 +74,10 @@ add_custom_command(
 include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 
 # include(../cmake/common.cmake)
-set(Torch_DIR "/home/cmd/Documents/cpp_libs/libtorch/share/cmake/Torch")
+#set(Torch_DIR "/home/cmd/Documents/cpp_libs/libtorch/share/cmake/Torch")
 set(Boost_INCLUDE_DIR "/home/cmd/Documents/cpp_libs/boost_1_78_0")
 
-find_package(Torch REQUIRED)
+#find_package(Torch REQUIRED)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
 
 find_package(Boost REQUIRED)
@@ -103,22 +103,16 @@ target_link_libraries(hw_grpc_proto
   ${_GRPC_GRPCPP}
   ${_PROTOBUF_LIBPROTOBUF})
 
-add_library(godotSharedInterfaceTorch
-  "godotInterfaceTorch/cGodotSharedInterface.cpp"
-  "godotInterfaceTorch/cGodotSharedInterface.h") 
+#add_library(godotSharedInterfaceTorch
+#  "godotInterfaceTorch/cGodotSharedInterface.cpp"
+#  "godotInterfaceTorch/cGodotSharedInterface.h") 
   
-target_link_libraries(godotSharedInterfaceTorch 
-  "${Boost_LIBRARIES}" "${TORCH_LIBRARIES}" -lrt) ## on lrt https://github.com/boostorg/interprocess/issues/42
+#target_link_libraries(godotSharedInterfaceTorch 
+#  "${Boost_LIBRARIES}" "${TORCH_LIBRARIES}" -lrt) ## on lrt https://github.com/boostorg/interprocess/issues/42
 
 #add_executable(rl_agent_trainer "trainer/rl_agent_trainer.cc" "godotInterfaceTorch/cGodotSharedInterface.cpp")
 #target_link_libraries(rl_agent_trainer "${Boost_LIBRARIES}" "${TORCH_LIBRARIES}")
 #target_include_directories(rl_agent_trainer PRIVATE "/home/ccmd/Documents/cpp_libs/libtorch/include")
-
-add_executable(rl_agent_trainer "trainer/rl_agent_trainer.cc" )
-target_link_libraries(rl_agent_trainer 
-  godotSharedInterfaceTorch)
-
-set_property(TARGET rl_agent_trainer PROPERTY CXX_STANDARD 14)
 
 add_library(godotSharedInterface
   "godotInterface/cGodotSharedInterface.cpp"
@@ -127,36 +121,18 @@ add_library(godotSharedInterface
 target_link_libraries(godotSharedInterface
     #"${TORCH_LIBRARIES}" 
     "${Boost_LIBRARIES}"
+    -lpthread
     -lrt) ## https://github.com/boostorg/interprocess/issues/42
 
+#set_property(TARGET rl_agent_trainer PROPERTY CXX_STANDARD 14)
+
 # Targets greeter_[async_](client|server)
-add_executable(rcl_server "server/rcl_server.cc" )
-target_link_libraries(rcl_server 
+add_executable(rlc_server "server/rlc_server.cc" )
+target_link_libraries(rlc_server 
     hw_grpc_proto
     ${_REFLECTION}
     ${_GRPC_GRPCPP}
     ${_PROTOBUF_LIBPROTOBUF}
     godotSharedInterface)
 
-# add_executable(rcl_client "rcl_client.cc" "godotInterface/cGodotSharedInterface.h" "godotInterface/cGodotSharedInterface.cpp")
-add_executable(rcl_client "client/rcl_client.cc" )
-# target_include_directories(rcl_client PRIVATE godotInterface)
-target_link_libraries(rcl_client 
-    hw_grpc_proto
-    ${_REFLECTION}
-    ${_GRPC_GRPCPP}
-    ${_PROTOBUF_LIBPROTOBUF}
-    godotSharedInterface)
-    #godotSharedInterface)
-    # "${TORCH_LIBRARIES}" )
-    #"${Boost_LIBRARIES}")
-#target_link_libraries(rcl_client godotSharedInterface)
-#foreach(_target
-#  rcl_client rcl_server)
-#  add_executable(${_target} "${_target}.cc")
-#  target_link_libraries(${_target}
-#    hw_grpc_proto
-#    ${_REFLECTION}
-#    ${_GRPC_GRPCPP}
-#    ${_PROTOBUF_LIBPROTOBUF})
-#endforeach()
+
