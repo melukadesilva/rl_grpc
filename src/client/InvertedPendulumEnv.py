@@ -58,7 +58,7 @@ class InvPendulumEnv(gym.Env):
         action = torch.Tensor(action)
         #print(action)
         action = torch.clamp(action, min=-self.max_torque, max=self.max_torque) 
-        print(action.item())
+        # print(action.item())
         response_step = self.stub.Step(observation_action_pb2.ActionData(action_index=action.item(), env_action=0))
 
         observation = torch.Tensor(response_step.observations)

@@ -40,7 +40,7 @@ def run():
         # create the env
         env = InvPendulumEnv(channel)
         # Instantiate the agent
-        model = DDPG('MlpPolicy', env, verbose=1)
+        model = DDPG('MlpPolicy', env, verbose=1, tensorboard_log="./ddpg_try_1")
         # Train the agent
         model.learn(total_timesteps=int(2e5))
         '''

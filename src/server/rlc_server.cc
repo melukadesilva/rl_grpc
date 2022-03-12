@@ -63,7 +63,7 @@ class RCServiceImpl final : public RLC::Service {
         float reward;
         int64_t is_done;
 
-        std::cout << request->action_index() << std::endl;
+        // std::cout << request->action_index() << std::endl;
         action_vec.push_back(request->action_index());
         actionTensor->write(action_vec);
         env_action_vec.push_back(request->env_action());
@@ -102,7 +102,7 @@ class RCServiceImpl final : public RLC::Service {
         int64_t is_done;
         
         std::vector<int64_t> reset = {1};
-        std::cout << "reset: " << reset[0] << std::endl;
+        // std::cout << "reset: " << reset[0] << std::endl;
         envActionTensor->write(reset);
         sem_act.post();
 
@@ -112,7 +112,7 @@ class RCServiceImpl final : public RLC::Service {
         is_done = doneTensor->read()[0];
 
         //if (is_done == 1) {
-        std::cout << "is done: " << is_done << std::endl;
+        // std::cout << "is done: " << is_done << std::endl;
         reply->set_is_done(is_done);
         //}
         //else {
