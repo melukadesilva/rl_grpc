@@ -127,10 +127,10 @@ func _physics_process(delta):
 		if env_action[0] == 1:
 		#if is_done() == 1:
 			#print("Done")
-			get_tree().paused = true
+			#get_tree().paused = true
 			$Anchor/PinJoint2D/RigidBody2D.reset = true
 			time_elapsed = 0.0
-			get_tree().paused = false
+			#get_tree().paused = false
 		
 		count += 1
 		#if env_action[1] == 1:
