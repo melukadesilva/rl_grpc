@@ -24,6 +24,11 @@ class RLCStub(object):
                 request_serializer=observation__action__pb2.Empty.SerializeToString,
                 response_deserializer=observation__action__pb2.ObservationData.FromString,
                 )
+        self.Terminate = channel.unary_unary(
+                '/rlc.RLC/Terminate',
+                request_serializer=observation__action__pb2.Empty.SerializeToString,
+                response_deserializer=observation__action__pb2.Empty.FromString,
+                )
 
 
 class RLCServicer(object):
@@ -41,6 +46,12 @@ class RLCServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Terminate(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_RLCServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -53,6 +64,11 @@ def add_RLCServicer_to_server(servicer, server):
                     servicer.Reset,
                     request_deserializer=observation__action__pb2.Empty.FromString,
                     response_serializer=observation__action__pb2.ObservationData.SerializeToString,
+            ),
+            'Terminate': grpc.unary_unary_rpc_method_handler(
+                    servicer.Terminate,
+                    request_deserializer=observation__action__pb2.Empty.FromString,
+                    response_serializer=observation__action__pb2.Empty.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -95,5 +111,22 @@ class RLC(object):
         return grpc.experimental.unary_unary(request, target, '/rlc.RLC/Reset',
             observation__action__pb2.Empty.SerializeToString,
             observation__action__pb2.ObservationData.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Terminate(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/rlc.RLC/Terminate',
+            observation__action__pb2.Empty.SerializeToString,
+            observation__action__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

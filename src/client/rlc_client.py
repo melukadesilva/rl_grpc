@@ -43,6 +43,8 @@ def run():
         model = DDPG('MlpPolicy', env, verbose=1, tensorboard_log="./ddpg_try_1")
         # Train the agent
         model.learn(total_timesteps=int(2e5))
+
+        env.terminate()
         '''
         while True:
             obs, rew, done, _ = env.step(torch.tensor([8.0]))

@@ -6,6 +6,7 @@ service RLC {
 
     rpc Step(ActionData) returns (ObservationData) {}
     rpc Reset(Empty) returns (ObservationData) {}
+    rpc Terminate(Empty) returns (Empty) {}
 
 }
 

@@ -35,7 +35,7 @@ class RCServiceImpl final : public RLC::Service {
     // write to the shared memory
     //cPersistentIntTensor *actionTensor = mem.newIntTensor("action", 1);
     cPersistentFloatTensor *actionTensor = mem.newFloatTensor("action", 1);
-    cPersistentIntTensor *envActionTensor = mem.newIntTensor("env_action", 1);
+    cPersistentIntTensor *envActionTensor = mem.newIntTensor("env_action", 2);
     cPersistentFloatTensor *observationTensor = mem.newFloatTensor("observation", 3);
     cPersistentFloatTensor *rewardTensor = mem.newFloatTensor("reward", 1);
     cPersistentIntTensor *doneTensor = mem.newIntTensor("done", 1);
@@ -101,7 +101,7 @@ class RCServiceImpl final : public RLC::Service {
         float reward;
         int64_t is_done;
         
-        std::vector<int64_t> reset = {1};
+        std::vector<int64_t> reset = {1, 0};
         // std::cout << "reset: " << reset[0] << std::endl;
         envActionTensor->write(reset);
         sem_act.post();
@@ -126,6 +126,19 @@ class RCServiceImpl final : public RLC::Service {
         reply->set_reward(reward);
         
         return Status::OK;
+    }
+
+    Status Terminate(ServerContext *context,
+                const Empty *request,
+                Empty *reply) override {
+            
+        std::vector<int64_t> terminate = {0, 1};
+        // std::cout << "reset: " << reset[0] << std::endl;
+        envActionTensor->write(terminate);
+        sem_act.post();
+
+        return Status::OK;
+
     }
 };
 

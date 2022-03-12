@@ -83,9 +83,11 @@ class InvPendulumEnv(gym.Env):
 
         return observation
         
-
     def render(self, mode='human'):
         pass
+
+    def terminate(self):
+        self.stub.Terminate(observation_action_pb2.Empty())
 
 
 '''

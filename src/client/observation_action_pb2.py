@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x18observation_action.proto\x12\x03rlc\"\x07\n\x05\x45mpty\"H\n\x0fObservationData\x12\x14\n\x0cobservations\x18\x01 \x03(\x02\x12\x0e\n\x06reward\x18\x02 \x01(\x02\x12\x0f\n\x07is_done\x18\x03 \x01(\x03\"6\n\nActionData\x12\x14\n\x0c\x61\x63tion_index\x18\x01 \x01(\x02\x12\x12\n\nenv_action\x18\x02 \x01(\x03\x32\x63\n\x03RLC\x12/\n\x04Step\x12\x0f.rlc.ActionData\x1a\x14.rlc.ObservationData\"\x00\x12+\n\x05Reset\x12\n.rlc.Empty\x1a\x14.rlc.ObservationData\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x18observation_action.proto\x12\x03rlc\"\x07\n\x05\x45mpty\"H\n\x0fObservationData\x12\x14\n\x0cobservations\x18\x01 \x03(\x02\x12\x0e\n\x06reward\x18\x02 \x01(\x02\x12\x0f\n\x07is_done\x18\x03 \x01(\x03\"6\n\nActionData\x12\x14\n\x0c\x61\x63tion_index\x18\x01 \x01(\x02\x12\x12\n\nenv_action\x18\x02 \x01(\x03\x32\x8a\x01\n\x03RLC\x12/\n\x04Step\x12\x0f.rlc.ActionData\x1a\x14.rlc.ObservationData\"\x00\x12+\n\x05Reset\x12\n.rlc.Empty\x1a\x14.rlc.ObservationData\"\x00\x12%\n\tTerminate\x12\n.rlc.Empty\x1a\n.rlc.Empty\"\x00\x62\x06proto3')
 
 
 
@@ -52,6 +52,6 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _OBSERVATIONDATA._serialized_end=114
   _ACTIONDATA._serialized_start=116
   _ACTIONDATA._serialized_end=170
-  _RLC._serialized_start=172
-  _RLC._serialized_end=271
+  _RLC._serialized_start=173
+  _RLC._serialized_end=311
 # @@protoc_insertion_point(module_scope)

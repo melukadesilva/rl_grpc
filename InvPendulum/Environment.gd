@@ -132,9 +132,8 @@ func _physics_process(delta):
 			time_elapsed = 0.0
 			#get_tree().paused = false
 		
-		count += 1
-		#if env_action[1] == 1:
-		#	get_tree().quit()
+		if env_action[1] == 1:
+			get_tree().quit()
 		$Anchor/PinJoint2D/RigidBody2D.torque = -agent_action[0]/1.0
 		#if agent_action[0] == 0:
 		#	$Anchor/PinJoint2D/RigidBody2D.torque = -3
