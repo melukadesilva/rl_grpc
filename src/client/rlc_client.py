@@ -42,7 +42,17 @@ def run():
         # Instantiate the agent
         model = DDPG('MlpPolicy', env, verbose=1, tensorboard_log="./ddpg_try_1")
         # Train the agent
-        model.learn(total_timesteps=int(2e5))
+        model.learn(total_timesteps=1_000)#int(2e5))
+
+        # Save the agent and clear the memory
+        model.save("./checkpoints/ddpg_inv_pendulum")
+        del model
+
+        # Load and evaluate the model
+        model = DDPG.load("./checkpoints/ddpg_inv_pendulum", env=env)
+        mean_reward, std_reward = evaluate_policy(model, model.get_env(), n_eval_episodes=10)
+
+        print("Mean reward: {}, Standard deviation reward: {}".format(mean_reward, std_reward))
 
         env.terminate()
         '''
