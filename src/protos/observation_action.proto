@@ -21,6 +21,6 @@ message ObservationData {
 }
 
 message ActionData {
-    float action_index = 1;
+    repeated float action_index = 1;
     int64 env_action = 2;
 }

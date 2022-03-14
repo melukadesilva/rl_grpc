@@ -28,7 +28,7 @@ import gym
 from stable_baselines3 import DDPG
 from stable_baselines3.common.evaluation import evaluate_policy
 
-from InvertedPendulumEnv import InvPendulumEnv
+from LanderEnv import LanderEnv
 
 
 def run():
@@ -38,26 +38,29 @@ def run():
     # while True:
     with grpc.insecure_channel('localhost:50051') as channel:
         # create the env
-        env = InvPendulumEnv(channel)
+        env = LanderEnv(channel, 2, 21)
+        
         # Instantiate the agent
         model = DDPG('MlpPolicy', env, verbose=1, tensorboard_log="./ddpg_try_1")
         # Train the agent
-        model.learn(total_timesteps=1_000)#int(2e5))
+        model.learn(total_timesteps=int(2e5))
 
         # Save the agent and clear the memory
         model.save("./checkpoints/ddpg_inv_pendulum")
         del model
 
         # Load and evaluate the model
+        print("Loading the model")
         model = DDPG.load("./checkpoints/ddpg_inv_pendulum", env=env)
         mean_reward, std_reward = evaluate_policy(model, model.get_env(), n_eval_episodes=10)
 
         print("Mean reward: {}, Standard deviation reward: {}".format(mean_reward, std_reward))
 
         env.terminate()
+        
         '''
         while True:
-            obs, rew, done, _ = env.step(torch.tensor([8.0]))
+            obs, rew, done, _ = env.step(torch.tensor([8.0, 0.3]))
             print(rew, obs, done)
 
             if done == 1:
