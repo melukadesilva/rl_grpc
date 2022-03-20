@@ -57,16 +57,19 @@ class RCServiceImpl final : public RLC::Service {
 
         // https://www.programmersought.com/article/84463145457/
 
+        
         // vectors to hold simulation control parameters, actions, reward, done and observations; 
         // we receive it from the client and write to the godot-grpc shared memory space
         std::vector<int64_t> env_action_vec;
         std::vector<float> observations, action_vec;
         float reward;
         int64_t is_done;
+        //std::cout << "Stepping" << std::endl;
 
         // collect the actions received from the client
         for (int i = 0; i < request->action_index_size(); i++) {
             //std::cout << request->action_index(i) << std::endl;
+            //float action_received = float(request->action_index(i));
             action_vec.push_back(request->action_index(i));
         }
         
@@ -100,7 +103,7 @@ class RCServiceImpl final : public RLC::Service {
     Status Reset(ServerContext *context,
                 const Empty *request,
                 ObservationData *reply) override {
-
+        
         // vectors to hold the initial observation infos
         std::vector<float> observations;
         float reward;
@@ -127,7 +130,6 @@ class RCServiceImpl final : public RLC::Service {
             reply->add_observations(observations[i]);
         }
         reply->set_reward(reward);
-        
         // Procedure success status
         return Status::OK;
     }
