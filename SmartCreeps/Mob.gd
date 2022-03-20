@@ -13,7 +13,7 @@ var frame_count = 0
 func reset():
 	direction = 0.0
 	velocity = Vector2.ZERO
-	position = Vector2(rand_range(0, screen_size.x), 0)
+	position = Vector2(rand_range(0, screen_size.x), rand_range(0, screen_size.y))
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,7 +23,7 @@ func _ready():
 	# get the number of animations; returns a list of annimations
 	var mob_type = $AnimatedSprite.frames.get_animation_names()
 	# Set a random animation
-	$AnimatedSprite.animation = mob_type[randi() % mob_type.size()]
+	$AnimatedSprite.animation = "flying" #mob_type[randi() % mob_type.size()]
 	reset()
 	#position = mob_spawn_location.position# + Vector2(rand_range(0, screen_size.x), rand_range(0, screen_size.y))
 
@@ -31,7 +31,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	rotation = direction
-	position += velocity.rotated(direction) * delta
+	position += velocity * delta
 	# print("mob: ", position)
 	# linear_velocity = velocity.rotated(direction)
 	#print(velocity)

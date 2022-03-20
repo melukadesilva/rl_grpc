@@ -11,11 +11,16 @@ var velocity
 var direction
 
 var frame_count = 0
+var train = false
 
 func reset():
-	position = Vector2(0, rand_range(0, screen_size.y))
+	position = Vector2(rand_range(0, screen_size.x), rand_range(0, screen_size.y))
 	#print(position)
-	velocity = Vector2(rand_range(150.0, 250.0), rand_range(150.0, 250.0))
+	if train:
+		velocity = Vector2(rand_range(150.0, 250.0), rand_range(150.0, 250.0))
+	else:
+		velocity = Vector2.ZERO
+		
 	show()
 	
 # Called when the node enters the scene tree for the first time.
@@ -33,13 +38,19 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	frame_count += $AnimatedSprite.frames.get_frame_count("walk")
-	if frame_count % 6 == 0:
+#func update_player(delta):
+	#frame_count += $AnimatedSprite.frames.get_frame_count("walk")
+	#if frame_count % 6 == 0:
 		#print(delta)
-		direction += rand_range(-PI / 4, PI / 4)
-		
-	rotation = direction
-	position += velocity.rotated(direction) * delta
+	#	direction += rand_range(-PI / 4, PI / 4)
+	
+	if train:
+		rotation = direction
+		position += velocity.rotated(direction) * delta
+	else:
+		rotation = direction
+		position += velocity * delta# .rotated(direction) * delta
+	
 	# print("player", position)
 	position.x = clamp(position.x, 0, screen_size.x)
 	position.y = clamp(position.y, 0, screen_size.y)
